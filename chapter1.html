@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>KSS Math Lab — บทที่ 1 จำนวนและค่าประจำหลัก</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#eef6ff;
+    --bg2:#dcecfb;
+    --ink:#1a3a6b;
+    --ink-soft:#4a5f85;
+    --blue:#2980b9;
+    --blue-dark:#1a6a9a;
+    --green:#27ae60;
+    --green-dark:#1e8449;
+    --red:#c0392b;
+    --maroon:#922b21;
+    --purple:#8e44ad;
+    --purple-soft:#c39bd3;
+    --card:#ffffff;
+    --unit-a:#5db8e8;
+    --unit-b:#2980b9;
+    --ten-a:#1a6a9a;
+    --ten-b:#0e3c56;
+    --hund-a:#f4d03f;
+    --hund-b:#b7950b;
+    --tray:#f6fbff;
+    --line:#cfe1f4;
+    --shadow: 0 10px 30px -12px rgba(26,58,107,.35);
+    --radius: 18px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Sarabun',sans-serif;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #ffffff 0%, transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+    color:var(--ink);
+    min-height:100vh;
+    padding: 14px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .app{max-width:960px;margin:0 auto;}
+
+  /* ---------- Header ---------- */
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px; flex-wrap:wrap;
+    padding: 10px 4px 16px;
+  }
+  .brand{
+    font-family:'Mitr',sans-serif; font-weight:700; font-size:22px;
+    color:var(--maroon);
+    display:flex; align-items:center; gap:8px;
+  }
+  .brand .logo{
+    width:38px;height:38px;border-radius:10px;
+    background: linear-gradient(145deg, var(--maroon), #c0392b);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff; font-size:18px; box-shadow: var(--shadow);
+  }
+  .chapter{
+    font-family:'Mitr',sans-serif; font-weight:500; font-size:14px;
+    color:var(--blue-dark); background:#fff; padding:6px 14px;
+    border-radius:999px; border:1px solid var(--line);
+  }
+
+  /* ---------- Login gate ---------- */
+  .login-gate{
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .login-card{
+    width:100%; max-width:380px; background:var(--card); border-radius:var(--radius);
+    box-shadow: var(--shadow); padding:28px 24px; text-align:center;
+  }
+  .login-logo{ font-size:40px; margin-bottom:6px; }
+  .login-title{ font-family:'Mitr',sans-serif; font-weight:700; color:var(--maroon); margin:0 0 4px; font-size:19px; }
+  .login-sub{ font-size:12.5px; color:var(--ink-soft); margin:0 0 18px; }
+  .role-tabs{
+    display:flex; gap:6px; background:var(--bg); border-radius:999px; padding:4px; margin-bottom:16px;
+  }
+  .role-tab{
+    flex:1; font-family:'Mitr',sans-serif; font-weight:600; font-size:12.5px;
+    border:none; border-radius:999px; padding:9px 6px; cursor:pointer;
+    background:transparent; color:var(--ink-soft); transition:.15s ease;
+  }
+  .role-tab.active{
+    background: linear-gradient(120deg, var(--maroon), #c0392b); color:#fff; box-shadow: var(--shadow);
+  }
+  .login-field{ text-align:left; margin-bottom:10px; }
+  .login-field label{ font-size:12px; font-weight:600; color:var(--ink-soft); display:block; margin-bottom:4px; }
+  .login-field input{
+    width:100%; font-family:'Sarabun',sans-serif; font-size:14px;
+    border:2px solid var(--line); border-radius:10px; padding:9px 12px; color:var(--ink);
+  }
+  .login-field input:focus{ outline:none; border-color:var(--blue); }
+  .login-error{ color:var(--red); font-size:12.5px; font-weight:600; min-height:16px; margin:6px 0; }
+  .login-submit{ width:100%; margin-top:6px; }
+
+  /* ---------- User bar ---------- */
+  .user-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:#fff; border:1.5px solid var(--line); border-radius:999px;
+    padding:8px 8px 8px 16px; margin-bottom:14px;
+  }
+  .user-info{ font-family:'Mitr',sans-serif; font-weight:600; font-size:13px; color:var(--ink); }
+  .logout-btn{
+    font-family:'Mitr',sans-serif; font-weight:600; font-size:12px;
+    border:none; border-radius:999px; padding:7px 14px; cursor:pointer;
+    background:var(--bg2); color:var(--blue-dark);
+  }
+
+  /* ---------- Satisfaction survey ---------- */
+  .survey-card{
+    text-align:left; margin-top:22px; padding-top:18px; border-top:1.5px dashed var(--line);
+  }
+  .survey-title{ font-family:'Mitr',sans-serif; font-weight:700; color:var(--maroon); font-size:15px; margin-bottom:12px; text-align:center; }
+  .survey-q{ margin-bottom:14px; }
+  .survey-q-text{ font-size:13.5px; color:var(--ink); margin-bottom:8px; }
+  .survey-opts{ display:flex; gap:8px; }
+  .survey-opt{
+    flex:1; display:flex; flex-direction:column; align-items:center; gap:2px;
+    border:1.5px solid var(--line); border-radius:12px; background:#fff; padding:8px 4px;
+    cursor:pointer; font-family:'Sarabun',sans-serif; font-size:11px; color:var(--ink-soft);
+  }
+  .survey-opt .emoji{ font-size:20px; }
+  .survey-opt.picked{ border-color:var(--green); background:#eafaf0; color:var(--green-dark); font-weight:700; }
+  .survey-submit{ width:100%; margin-top:8px; }
+  .survey-thanks{ text-align:center; font-family:'Mitr',sans-serif; color:var(--green-dark); font-weight:600; margin-top:10px; }
+  .survey-thanks.hidden{ display:none; }
+  .survey-done-note{
+    margin-top:18px; text-align:center; font-size:13px; color:var(--green-dark);
+    background:#eafaf0; border-radius:10px; padding:10px;
+  }
+
+  /* ---------- Level Nav ---------- */
+  .levels{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:8px;
+    margin-bottom:16px;
+  }
+  .lvl-btn{
+    font-family:'Mitr',sans-serif; font-size:12.5px; font-weight:500;
+    border:none; border-radius:14px; padding:10px 6px;
+    background:#fff; color:var(--ink-soft);
+    border:1.5px solid var(--line);
+    cursor:pointer; transition:.15s ease; text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+  }
+  .lvl-btn .num{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--bg2); color:var(--blue-dark);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700; font-size:13px;
+  }
+  .lvl-btn.active{
+    background: linear-gradient(160deg, var(--blue), var(--blue-dark));
+    color:#fff; border-color:transparent; box-shadow: var(--shadow);
+  }
+  .lvl-btn.active .num{ background:rgba(255,255,255,.25); color:#fff; }
+  .lvl-btn.done .num{ background:var(--green); color:#fff; }
+  .lvl-btn.locked{ opacity:.45; cursor:not-allowed; }
+
+  /* ---------- Stage Card ---------- */
+  .card{
+    background:var(--card); border-radius:var(--radius);
+    box-shadow: var(--shadow); padding:20px; position:relative;
+    overflow:hidden;
+  }
+  .stage-head{ margin-bottom:14px; }
+  .stage-title{
+    font-family:'Mitr',sans-serif; font-weight:600; font-size:19px;
+    color:var(--ink); margin:0 0 4px;
+  }
+  .stage-desc{ font-size:14px; color:var(--ink-soft); margin:0; }
+
+  .progress-row{ display:flex; align-items:center; gap:8px; margin:10px 0 4px;}
+  .dots{ display:flex; gap:6px; }
+  .dot{ width:10px;height:10px;border-radius:50%; background:var(--line); }
+  .dot.filled{ background:var(--green); }
+  .score-pill{
+    margin-left:auto; font-family:'Mitr',sans-serif; font-size:12px; font-weight:600;
+    background:var(--bg2); color:var(--blue-dark); padding:4px 12px; border-radius:999px;
+  }
+
+  .prompt{
+    font-family:'Mitr',sans-serif; font-weight:600; font-size:18px;
+    color:#fff; background:linear-gradient(120deg, var(--blue), var(--purple));
+    padding:14px 18px; border-radius:14px; margin:10px 0 18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .prompt .badge{
+    font-size:26px; background:rgba(255,255,255,.25); border-radius:12px;
+    width:42px; height:42px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+
+  /* ---------- Tray ---------- */
+  .tray-wrap{ margin-bottom:16px; }
+  .tray-label{
+    font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-bottom:6px;
+    display:flex; align-items:center; gap:6px;
+  }
+  .tray{
+    background:var(--tray); border:1.5px dashed var(--line); border-radius:14px;
+    padding:12px; min-height:64px;
+    display:flex; flex-wrap:wrap; gap:10px; align-content:flex-start;
+    touch-action:none;
+  }
+  .tray.pileA{ background:#eaf5fc; border-color:#aed6ea; }
+  .tray.pileB{ background:#fff8e1; border-color:#f0d98c; }
+
+  /* ---------- Blocks ---------- */
+  .blk{
+    cursor:pointer; touch-action:manipulation; user-select:none;
+    position:relative; transition: transform .12s ease, box-shadow .12s ease, outline .12s ease;
+    filter: drop-shadow(0 3px 4px rgba(0,0,0,.18));
+  }
+  .blk.selected{
+    outline:3px solid var(--green); outline-offset:2px;
+    transform:scale(1.1) translateY(-3px);
+    filter: drop-shadow(0 8px 10px rgba(39,174,96,.45));
+  }
+  .blk.placed{ cursor:pointer; }
+  .blk.placed:active{ transform:scale(.94); }
+
+  /* ---------- True 3D proportional blocks (1x1x1 / 1x1x10 / 10x10x1) ---------- */
+  .blk{ display:flex; align-items:center; justify-content:center; }
+  .blk3d-scene{ width:100%; height:100%; perspective:700px; display:flex; align-items:center; justify-content:center; }
+  .cube3d{
+    position:relative; transform-style:preserve-3d;
+    width:calc(var(--w) * 1px); height:calc(var(--h) * 1px);
+    transform: rotateX(-20deg) rotateY(-32deg);
+    transition: transform .25s ease;
+  }
+  .blk.selected .cube3d{ transform: rotateX(-20deg) rotateY(-32deg) scale3d(1.12,1.12,1.12); }
+  .cube3d .f{ position:absolute; top:50%; left:50%; box-sizing:border-box; border:1px solid rgba(0,0,0,.28); }
+  .cube3d .f-front{
+    width:calc(var(--w) * 1px); height:calc(var(--h) * 1px);
+    margin:calc(var(--h) * -0.5px) 0 0 calc(var(--w) * -0.5px);
+    transform: translateZ(calc(var(--d) * 0.5px));
+    background: var(--front);
+  }
+  .cube3d .f-back{
+    width:calc(var(--w) * 1px); height:calc(var(--h) * 1px);
+    margin:calc(var(--h) * -0.5px) 0 0 calc(var(--w) * -0.5px);
+    transform: rotateY(180deg) translateZ(calc(var(--d) * 0.5px));
+    background: var(--side); filter:brightness(.7);
+  }
+  .cube3d .f-right{
+    width:calc(var(--d) * 1px); height:calc(var(--h) * 1px);
+    margin:calc(var(--h) * -0.5px) 0 0 calc(var(--d) * -0.5px);
+    transform: rotateY(90deg) translateZ(calc(var(--w) * 0.5px));
+    background: var(--side);
+  }
+  .cube3d .f-left{
+    width:calc(var(--d) * 1px); height:calc(var(--h) * 1px);
+    margin:calc(var(--h) * -0.5px) 0 0 calc(var(--d) * -0.5px);
+    transform: rotateY(-90deg) translateZ(calc(var(--w) * 0.5px));
+    background: var(--side); filter:brightness(.55);
+  }
+  .cube3d .f-top{
+    width:calc(var(--w) * 1px); height:calc(var(--d) * 1px);
+    margin:calc(var(--d) * -0.5px) 0 0 calc(var(--w) * -0.5px);
+    transform: rotateX(90deg) translateZ(calc(var(--h) * 0.5px));
+    background: var(--top);
+  }
+  .cube3d .f-bottom{
+    width:calc(var(--w) * 1px); height:calc(var(--d) * 1px);
+    margin:calc(var(--d) * -0.5px) 0 0 calc(var(--w) * -0.5px);
+    transform: rotateX(-90deg) translateZ(calc(var(--h) * 0.5px));
+    background: var(--side); filter:brightness(.45);
+  }
+
+  .blk.type-unit{ width:46px; height:46px; }
+  .blk.type-ten{ width:224px; height:78px; }
+  .blk.type-hund{ width:224px; height:224px; position:relative; }
+
+  /* ---------- Place value table ---------- */
+  .pv-table{
+    display:grid; gap:10px; margin-bottom:18px;
+  }
+  .pv-table.cols-1{ grid-template-columns: 1fr; max-width:270px; margin-inline:auto; }
+  .pv-table.cols-2{ grid-template-columns: 1fr 1fr; }
+  .pv-table.cols-3{ grid-template-columns: 1fr 1fr 1fr; }
+
+  .pv-col{
+    background:#fbfdff; border:2px solid var(--line); border-radius:14px;
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .pv-col-head{
+    font-family:'Mitr',sans-serif; font-weight:600; font-size:13px;
+    text-align:center; padding:8px 4px; color:#fff;
+  }
+  .pv-col.hund .pv-col-head{ background: linear-gradient(120deg, var(--hund-b), #7a5c00); }
+  .pv-col.tens .pv-col-head{ background: linear-gradient(120deg, var(--blue), var(--blue-dark)); }
+  .pv-col.units .pv-col-head{ background: linear-gradient(120deg, var(--purple), #6c3483); }
+
+  .dropzone{
+    padding:8px;
+    display:flex; flex-direction:column-reverse; align-items:stretch; gap:3px;
+    flex:1;
+  }
+  .dropzone.over{ background:#eaf7ee; outline:2px dashed var(--green); outline-offset:-4px; }
+  .dropzone.can-place{ background:#eaf7ee; outline:2px dashed var(--green); outline-offset:-4px; cursor:pointer; }
+  .dropzone.shakezone{ animation: shake .35s; background:#fdecea; }
+
+  .slot{
+    width:100%; flex:0 0 auto; position:relative;
+    border:1.5px dashed var(--line); border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .slot::after{
+    content:'+'; color:#c7d6ea; font-size:13px; font-weight:700; line-height:1;
+  }
+  .slot.filled{ border-color:transparent; }
+  .slot.filled::after{ content:''; }
+  .slot-units{ height:32px; }
+  .slot-tens{ height:46px; }
+  .slot-hund{ height:122px; }
+
+  .count-tag{
+    text-align:center; font-family:'Mitr',sans-serif; font-weight:700; font-size:20px;
+    color:var(--ink); padding:8px 0 6px; border-top:1.5px dashed var(--line);
+    background:#fff;
+  }
+
+  /* ---------- Answer inputs ---------- */
+  .answer-row{
+    display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:center;
+    background:var(--bg); border-radius:14px; padding:16px; margin-bottom:14px;
+  }
+  .field{ display:flex; flex-direction:column; align-items:center; gap:5px; }
+  .field label{ font-size:12.5px; font-weight:600; color:var(--ink-soft); }
+  .field input{
+    width:70px; text-align:center; font-family:'Mitr',sans-serif; font-size:19px; font-weight:600;
+    border:2px solid var(--line); border-radius:10px; padding:8px 4px; color:var(--ink);
+    background:#fff;
+  }
+  .field input:focus{ outline:none; border-color:var(--blue); }
+  .op{ font-family:'Mitr',sans-serif; font-weight:700; font-size:22px; color:var(--ink-soft); }
+
+  .addend-line{
+    font-family:'Mitr',sans-serif; font-weight:600; font-size:16px; color:var(--ink);
+    text-align:center; margin-bottom:8px;
+  }
+  .addend-line .a{ color:var(--blue-dark); }
+  .addend-line .b{ color:#a86400; }
+
+  /* ---------- Buttons ---------- */
+  .actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:6px;}
+  .btn{
+    font-family:'Mitr',sans-serif; font-weight:600; font-size:15px;
+    border:none; border-radius:12px; padding:12px 26px; cursor:pointer;
+    transition:.15s ease; box-shadow: var(--shadow);
+  }
+  .btn:active{ transform: translateY(1px) scale(.98); }
+  .btn-primary{ background: linear-gradient(120deg, var(--green), var(--green-dark)); color:#fff; }
+  .btn-secondary{ background:#fff; color:var(--ink-soft); border:1.5px solid var(--line); box-shadow:none;}
+
+  /* ---------- Feedback ---------- */
+  .feedback{
+    position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px);
+    font-family:'Mitr',sans-serif; font-weight:600; font-size:16px;
+    padding:14px 22px; border-radius:16px; color:#fff; z-index:1000;
+    box-shadow:0 12px 24px -8px rgba(0,0,0,.35);
+    opacity:0; pointer-events:none; transition:.25s ease;
+    display:flex; align-items:center; gap:10px; max-width:90vw;
+  }
+  .feedback.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  .feedback.good{ background: linear-gradient(120deg, var(--green), var(--green-dark)); }
+  .feedback.bad{ background: linear-gradient(120deg, var(--red), var(--maroon)); }
+  .shake{ animation: shake .4s; }
+  @keyframes shake{
+    10%,90%{transform:translateX(-2px);} 20%,80%{transform:translateX(4px);}
+    30%,50%,70%{transform:translateX(-8px);} 40%,60%{transform:translateX(8px);}
+  }
+
+  /* ---------- Summary ---------- */
+  .summary{ text-align:center; padding:20px 10px; }
+  .summary .medal{ font-size:64px; margin-bottom:10px; }
+  .summary h2{ font-family:'Mitr',sans-serif; color:var(--maroon); margin:0 0 6px;}
+  .summary p{ color:var(--ink-soft); margin:0 0 18px; }
+  .quote{
+    font-family:'Mitr',sans-serif; font-size:13px; color:var(--blue-dark);
+    background:var(--bg); border-radius:12px; padding:14px 18px; margin-top:18px;
+    line-height:1.7;
+  }
+
+  footer{ text-align:center; font-size:11.5px; color:#9fb3cf; margin:22px 0 6px; }
+
+  @media (max-width:520px){
+    .blk.type-ten{ width:172px; height:62px; }
+    .blk.type-ten .cube3d{ transform: rotateX(-20deg) rotateY(-32deg) scale3d(.75,.75,.75); }
+    .blk.type-hund{ width:172px; height:172px; }
+    .blk.type-hund .cube3d{ transform: rotateX(-20deg) rotateY(-32deg) scale3d(.75,.75,.75); }
+    .prompt{ font-size:15px; }
+    .levels{ grid-template-columns:repeat(4,1fr); gap:6px; }
+    .lvl-btn{ font-size:10.5px; padding:8px 3px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="login-gate" id="loginGate">
+  <div class="login-card">
+    <div class="login-logo">🧮</div>
+    <h2 class="login-title">เข้าสู่ระบบ KSS Math Lab</h2>
+    <p class="login-sub">แบบพัฒนาความคิดรวบยอดทางคณิตศาสตร์ 1</p>
+
+    <div class="role-tabs" id="roleTabs">
+      <button class="role-tab active" data-role="learner">👦 ผู้เรียน</button>
+      <button class="role-tab" data-role="reviewer">🧑‍🏫 ผู้ตรวจ</button>
+    </div>
+
+    <div id="loginFields"></div>
+    <div class="login-error" id="loginError"></div>
+    <button class="btn btn-primary login-submit" id="loginSubmit">เริ่มใช้งาน</button>
+  </div>
+</div>
+
+<div class="app" id="appRoot" style="display:none;">
+  <header>
+    <div class="brand"><span class="logo">🧮</span> KSS Math Lab</div>
+    <div class="chapter">แบบพัฒนาความคิดรวบยอดทางคณิตศาสตร์ 1</div>
+  </header>
+
+  <div class="user-bar" id="userBar"></div>
+
+  <nav class="levels" id="levelNav"></nav>
+
+  <div class="card" id="stage"></div>
+
+  <footer>ออกแบบตามแนวคิดค่าประจำหลักจำลอง (Base-10 Blocks) · โรงเรียนพัฒนาทักษะ เคเอสเอส</footer>
+</div>
+
+<div class="feedback" id="feedback"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ CONFIG ============ */
+  const LEVELS = [
+    {key:'units', num:1, label:'นับหน่วย', title:'ตอนที่ 1 · นับบล็อกหน่วย',
+     desc:'แตะลูกบาศก์หน่วยเพื่อวางลงช่อง "หน่วย" ให้ครบตามจำนวนโจทย์ แล้วเติมตัวเลข'},
+    {key:'tens', num:2, label:'นับสิบ', title:'ตอนที่ 1 · นับบล็อกสิบ',
+     desc:'แตะแท่งบล็อก 10 หน่วยเพื่อวางลงช่อง "สิบ" ให้ครบตามจำนวนโจทย์ แล้วเติมตัวเลข'},
+    {key:'expand', num:3, label:'กระจายจำนวน', title:'ตอนที่ 1 · กระจายจำนวน',
+     desc:'แตะบล็อกสิบและบล็อกหน่วยให้ตรงกับจำนวนที่โจทย์กำหนด แล้วเขียนกระจายจำนวน'},
+    {key:'add', num:4, label:'การบวก', title:'ตอนที่ 2 · การบวกแบบไม่มีตัวทด',
+     desc:'ย้ายบล็อกจากกองสีฟ้าและกองสีส้มมารวมกัน แล้วหาผลบวก'}
+  ];
+  const Q_PER_LEVEL = 5;
+
+  const state = {
+    mode: 'learner', // 'learner' | 'reviewer'
+    userName: '',
+    levelIndex: 0,
+    qIndex: 0,
+    correctInLevel: 0,
+    unlockedLevel: 0,
+    totalScore: 0,
+    lastValue: {units:null, tens:null, expand:null, add:null},
+    question: null,
+    dropped: { hund:[], tens:[], units:[] } // arrays of {digit, owner}
+  };
+
+  /* ============ COOKIES ============ */
+  function setCookie(name, value, days){
+    const d = new Date();
+    d.setTime(d.getTime() + days*24*60*60*1000);
+    document.cookie = name+'='+encodeURIComponent(value)+';expires='+d.toUTCString()+';path=/;SameSite=Lax';
+  }
+  function getCookie(name){
+    const m = document.cookie.match(new RegExp('(?:^|; )'+name.replace(/[.$?*|{}()[\]\\/+^]/g,'\\$&')+'=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+  function deleteCookie(name){
+    document.cookie = name+'=; Max-Age=-1; path=/; SameSite=Lax';
+  }
+
+  /* ============ HELPERS ============ */
+  function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+  function pickAvoid(min,max,avoid){
+    let v; let tries=0;
+    do{ v=randInt(min,max); tries++; }while(v===avoid && tries<20);
+    return v;
+  }
+  function el(tag, cls, html){
+    const e=document.createElement(tag);
+    if(cls) e.className=cls;
+    if(html!==undefined) e.innerHTML=html;
+    return e;
+  }
+  function thaiNum(n){ return n.toLocaleString('th-TH'); }
+
+  /* ============ QUESTION GENERATORS ============ */
+  function genUnits(){
+    const target = pickAvoid(1,9,state.lastValue.units);
+    state.lastValue.units = target;
+    return {target};
+  }
+  function genTens(){
+    const t = pickAvoid(1,9,state.lastValue.tens/10);
+    state.lastValue.tens = t*10;
+    return {target: t*10, tensCount:t};
+  }
+  function genExpand(){
+    let target;
+    do{ target = randInt(11,99); }while(target===state.lastValue.expand);
+    state.lastValue.expand = target;
+    return {target, tensDigit:Math.floor(target/10), unitsDigit: target%10};
+  }
+  function genAdd(){
+    const digits = Math.random()<0.5 ? 2 : 3;
+    let aDigits=[], bDigits=[];
+    for(let i=0;i<digits;i++){
+      const leading = i===0;
+      let aD, bD;
+      if(leading){
+        aD = randInt(1,7);
+        const maxB = 9-aD;
+        bD = randInt(1, Math.max(1,maxB));
+      } else {
+        aD = randInt(0,9);
+        const maxB = 9-aD;
+        bD = randInt(0,maxB);
+      }
+      aDigits.push(aD); bDigits.push(bD);
+    }
+    const places = ['hund','tens','units'].slice(3-digits);
+    const a = Number(aDigits.join(''));
+    const b = Number(bDigits.join(''));
+    return {digits, aDigits, bDigits, places, a, b, sum:a+b};
+  }
+  const GEN = {units:genUnits, tens:genTens, expand:genExpand, add:genAdd};
+
+  /* ============ RENDER: LEVEL NAV ============ */
+  function renderNav(){
+    const nav = document.getElementById('levelNav');
+    nav.innerHTML='';
+    LEVELS.forEach((lv, i)=>{
+      const btn = el('button','lvl-btn');
+      const locked = state.mode==='reviewer' ? false : (i>state.unlockedLevel);
+      const active = i===state.levelIndex;
+      btn.classList.toggle('active', active);
+      btn.classList.toggle('locked', locked);
+      btn.classList.toggle('done', i<state.unlockedLevel);
+      btn.innerHTML = `<span class="num">${i<state.unlockedLevel?'✓':lv.num}</span><span>${lv.label}</span>`;
+      btn.disabled = locked;
+      btn.addEventListener('click', ()=>{
+        if(locked) return;
+        state.levelIndex = i;
+        state.qIndex = 0;
+        state.correctInLevel = 0;
+        nextQuestion();
+      });
+      nav.appendChild(btn);
+    });
+  }
+
+  /* ============ LOGIN / ROLE SYSTEM ============ */
+  const ROLE_LABEL = {learner:'👦 ผู้เรียน', reviewer:'🧑\u200d🏫 ผู้ตรวจ'};
+  let loginRole = 'learner';
+
+  function renderLoginFields(){
+    const box = document.getElementById('loginFields');
+    box.innerHTML='';
+    if(loginRole==='learner'){
+      box.innerHTML = `
+        <div class="login-field">
+          <label>ชื่อผู้เรียน</label>
+          <input type="text" id="inpLearnerName" placeholder="กรอกชื่อของหนู">
+        </div>`;
+    } else {
+      box.innerHTML = `
+        <div class="login-field">
+          <label>ชื่อผู้ตรวจ</label>
+          <input type="text" id="inpReviewerName" placeholder="กรอกชื่อของท่าน">
+        </div>
+        <div class="login-field">
+          <label>Username</label>
+          <input type="text" id="inpUser" placeholder="Username" autocomplete="off">
+        </div>
+        <div class="login-field">
+          <label>Password</label>
+          <input type="password" id="inpPass" placeholder="Password" autocomplete="off">
+        </div>`;
+    }
+  }
+
+  function setupLoginGate(){
+    document.querySelectorAll('.role-tab').forEach(tab=>{
+      tab.addEventListener('click', ()=>{
+        document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));
+        tab.classList.add('active');
+        loginRole = tab.dataset.role;
+        document.getElementById('loginError').textContent='';
+        renderLoginFields();
+      });
+    });
+    renderLoginFields();
+
+    document.getElementById('loginSubmit').addEventListener('click', ()=>{
+      const errBox = document.getElementById('loginError');
+      errBox.textContent='';
+      if(loginRole==='learner'){
+        const name = document.getElementById('inpLearnerName').value.trim();
+        if(!name){ errBox.textContent='กรุณากรอกชื่อผู้เรียน'; return; }
+        completeLogin('learner', name);
+      } else {
+        const name = document.getElementById('inpReviewerName').value.trim();
+        const user = document.getElementById('inpUser').value.trim();
+        const pass = document.getElementById('inpPass').value;
+        if(!name){ errBox.textContent='กรุณากรอกชื่อผู้ตรวจ'; return; }
+        if(user!=='admin' || pass!=='admin'){ errBox.textContent='Username หรือ Password ไม่ถูกต้อง'; return; }
+        completeLogin('reviewer', name);
+      }
+    });
+  }
+
+  function completeLogin(role, name){
+    setCookie('kss_role', role, 30);
+    setCookie('kss_name', name, 30);
+    state.mode = role;
+    state.userName = name;
+    document.getElementById('loginGate').style.display='none';
+    document.getElementById('appRoot').style.display='';
+    boot();
+  }
+
+  function doLogout(){
+    deleteCookie('kss_role');
+    deleteCookie('kss_name');
+    location.reload();
+  }
+
+  function renderUserBar(){
+    const bar = document.getElementById('userBar');
+    bar.innerHTML='';
+    bar.appendChild(el('div','user-info', `${ROLE_LABEL[state.mode]} · ${state.userName}`));
+    const logoutBtn = el('button','logout-btn','ออกจากระบบ');
+    logoutBtn.addEventListener('click', doLogout);
+    bar.appendChild(logoutBtn);
+  }
+
+  function boot(){
+    renderUserBar();
+    renderNav();
+    nextQuestion();
+  }
+
+  /* ============ FEEDBACK ============ */
+  let fbTimer=null;
+  function showFeedback(good, msg){
+    const fb = document.getElementById('feedback');
+    fb.className = 'feedback show ' + (good?'good':'bad');
+    fb.innerHTML = (good? '🎉 ' : '🤔 ') + msg;
+    clearTimeout(fbTimer);
+    fbTimer = setTimeout(()=>{ fb.classList.remove('show'); }, 1600);
+  }
+
+  /* ============ ONE-TAP-TO-PLACE ENGINE ============ */
+  // wrapper box sizes as originally used in the tray (must match .blk.type-* CSS)
+  const BLOCK_WRAPPER = { unit:{w:46,h:46}, ten:{w:224,h:78}, hund:{w:224,h:224} };
+  const SLOT_SCALE = 0.5; // single shared factor -> keeps the true 1:10:10 ratio intact, just smaller
+
+  function visualOf(blkEl){
+    if(blkEl.classList.contains('type-ten')) return 'ten';
+    if(blkEl.classList.contains('type-hund')) return 'hund';
+    return 'unit';
+  }
+  function compactify(blkEl){
+    const wrap = BLOCK_WRAPPER[visualOf(blkEl)];
+    blkEl.style.width = (wrap.w*SLOT_SCALE)+'px';
+    blkEl.style.height = (wrap.h*SLOT_SCALE)+'px';
+    const cube = blkEl.querySelector('.cube3d');
+    if(cube) cube.style.transform = `rotateX(-20deg) rotateY(-32deg) scale3d(${SLOT_SCALE}, ${SLOT_SCALE}, ${SLOT_SCALE})`;
+  }
+  function restoreSize(blkEl){
+    blkEl.style.width = '';
+    blkEl.style.height = '';
+    const cube = blkEl.querySelector('.cube3d');
+    if(cube) cube.style.transform = '';
+  }
+
+  function makeSelectable(blkEl, {sourceTray}){
+    blkEl.addEventListener('click', ()=>{
+      if(blkEl.classList.contains('placed')){
+        // tap a placed block to send it back to its tray
+        const slot = blkEl.parentElement;
+        if(slot && slot.classList.contains('slot')) slot.classList.remove('filled');
+        blkEl.classList.remove('placed');
+        restoreSize(blkEl);
+        sourceTray.appendChild(blkEl);
+        updateCounts();
+        return;
+      }
+      autoPlace(blkEl);
+    });
+  }
+
+  function autoPlace(blkEl){
+    const zone = document.querySelector('.dropzone[data-zone="'+blkEl.dataset.kind+'"]');
+    if(!zone) return;
+    const emptySlot = zone.querySelector('.slot:not(.filled)');
+    if(!emptySlot){
+      zone.classList.add('shakezone');
+      setTimeout(()=>zone.classList.remove('shakezone'), 350);
+      showFeedback(false, 'ช่องนี้เต็มแล้ว (สูงสุด 9)');
+      return;
+    }
+    emptySlot.appendChild(blkEl);
+    emptySlot.classList.add('filled');
+    blkEl.classList.add('placed');
+    compactify(blkEl);
+    updateCounts();
+  }
+
+  // maps a logical place ('units' | 'tens' | 'hund') to the visual block class ('unit' | 'ten' | 'hund')
+  const PLACE_TO_VISUAL = {units:'unit', tens:'ten', hund:'hund'};
+
+  // real base-ten proportions: unit=1x1x1, ten=1x1x10 (rod), hundred=10x10x1 (flat) — all sharing one base unit length
+  const BASE_EDGE = 16; // px per "1" unit of length in 3D space
+  const BLOCK_DIMS = {
+    unit: {w:BASE_EDGE,    h:BASE_EDGE, d:BASE_EDGE},
+    ten:  {w:BASE_EDGE*10, h:BASE_EDGE, d:BASE_EDGE},
+    hund: {w:BASE_EDGE*10, h:BASE_EDGE, d:BASE_EDGE*10}
+  };
+  const BLOCK_COLORS = {
+    unit: {top:'#8fd4ef', front:'#3a9bd1', side:'#1f6f9c'},
+    ten:  {top:'#4aa8d8', front:'#1f7aa8', side:'#123f57'},
+    hund: {top:'#f9e28c', front:'#f0c94a', side:'#b7950b'}
+  };
+  const BLOCK_COLORS_B = {
+    unit: {top:'#ffd9a1', front:'#f0a84d', side:'#b96e00'},
+    ten:  {top:'#f4b06a', front:'#d98a2e', side:'#8a4f00'},
+    hund: {top:'#f6c3ba', front:'#e4736a', side:'#a3392f'}
+  };
+  const FACES = ['top','bottom','front','back','left','right'];
+
+  function makeBlockEl(place, colorB){
+    const visual = PLACE_TO_VISUAL[place]; // 'unit' | 'ten' | 'hund'
+    const dims = BLOCK_DIMS[visual];
+    const colors = colorB ? BLOCK_COLORS_B[visual] : BLOCK_COLORS[visual];
+
+    const b = el('div', 'blk type-'+visual + (colorB?' colorB':''));
+    b.dataset.kind = place; // logical place-value key, matches dropzone's data-zone
+
+    const scene = el('div','blk3d-scene');
+    const cube = el('div','cube3d');
+    cube.style.setProperty('--w', dims.w);
+    cube.style.setProperty('--h', dims.h);
+    cube.style.setProperty('--d', dims.d);
+    cube.style.setProperty('--top', colors.top);
+    cube.style.setProperty('--front', colors.front);
+    cube.style.setProperty('--side', colors.side);
+    FACES.forEach(face=>{ cube.appendChild(el('div','f f-'+face)); });
+    scene.appendChild(cube);
+    b.appendChild(scene);
+
+    return b;
+  }
+
+
+  function updateCounts(){
+    ['hund','tens','units'].forEach(t=>{
+      const zone = document.querySelector('.dropzone[data-zone="'+t+'"]');
+      if(!zone) return;
+      const count = zone.querySelectorAll('.blk').length;
+      const tag = zone.parentElement.querySelector('.count-tag');
+      if(tag) tag.textContent = count;
+    });
+  }
+
+  /* ============ MAIN RENDER PER LEVEL ============ */
+  function nextQuestion(){
+    const lvl = LEVELS[state.levelIndex];
+    state.question = GEN[lvl.key]();
+    renderNav();
+    renderStage();
+  }
+
+  function renderProgress(){
+    const dots = el('div','dots');
+    for(let i=0;i<Q_PER_LEVEL;i++){
+      dots.appendChild(el('div','dot'+(i<state.correctInLevel?' filled':'')));
+    }
+    const wrap = el('div','progress-row');
+    wrap.appendChild(dots);
+    wrap.appendChild(el('div','score-pill', '⭐ คะแนนรวม '+state.totalScore));
+    return wrap;
+  }
+
+  const SLOT_COUNT = 9;
+
+  function pvTable(cols){
+    // cols: array of {type,label,cls}
+    const table = el('div','pv-table cols-'+cols.length);
+    cols.forEach(c=>{
+      const col = el('div','pv-col '+c.cls);
+      col.appendChild(el('div','pv-col-head', c.label));
+      const zone = el('div','dropzone');
+      zone.dataset.zone = c.type;
+      for(let i=0;i<SLOT_COUNT;i++){
+        zone.appendChild(el('div','slot slot-'+c.type));
+      }
+      col.appendChild(zone);
+      col.appendChild(el('div','count-tag','0'));
+      table.appendChild(col);
+    });
+    return table;
+  }
+
+  function renderStage(){
+    const lvl = LEVELS[state.levelIndex];
+    const q = state.question;
+    const stage = document.getElementById('stage');
+    stage.innerHTML='';
+
+    const head = el('div','stage-head');
+    head.appendChild(el('h2','stage-title', lvl.title));
+    head.appendChild(el('p','stage-desc', lvl.desc));
+    stage.appendChild(head);
+    stage.appendChild(renderProgress());
+
+    if(lvl.key==='units') renderUnits(stage, q);
+    else if(lvl.key==='tens') renderTens(stage, q);
+    else if(lvl.key==='expand') renderExpand(stage, q);
+    else if(lvl.key==='add') renderAdd(stage, q);
+  }
+
+  /* ---- Level 1: Units ---- */
+  function renderUnits(stage, q){
+    stage.appendChild(el('div','prompt', `<span class="badge">🎯</span> แตะบล็อกหน่วยให้ได้ <b>&nbsp;${q.target}&nbsp;</b> หน่วย`));
+
+    const trayWrap = el('div','tray-wrap');
+    trayWrap.appendChild(el('div','tray-label','🧊 คลังบล็อกหน่วย'));
+    const tray = el('div','tray');
+    for(let i=0;i<9;i++){
+      const b = makeBlockEl('units');
+      makeSelectable(b, {sourceTray:tray});
+      tray.appendChild(b);
+    }
+    trayWrap.appendChild(tray);
+    stage.appendChild(trayWrap);
+
+    stage.appendChild(pvTable([{type:'units', label:'หน่วย', cls:'units'}]));
+
+    const answerRow = el('div','answer-row');
+    answerRow.innerHTML = `
+      <div class="field"><label>จำนวน</label><input id="ans1" type="number" inputmode="numeric" placeholder="?"> </div>
+      <span class="op">หน่วย</span>
+      <div class="field"><label>มีค่า</label><input id="ans2" type="number" inputmode="numeric" placeholder="?"></div>`;
+    stage.appendChild(answerRow);
+
+    stage.appendChild(actionsBar(()=>{
+      const zone = document.querySelector('.dropzone[data-zone="units"]');
+      const count = zone.querySelectorAll('.blk').length;
+      const a1 = Number(document.getElementById('ans1').value);
+      const a2 = Number(document.getElementById('ans2').value);
+      const ok = count===q.target && a1===q.target && a2===q.target;
+      handleCheck(ok, ok? 'เก่งมาก! นับถูกต้องแล้ว' : `ลองใหม่นะ แตะบล็อกให้ครบ ${q.target} หน่วย และเช็คตัวเลขอีกครั้ง`);
+    }));
+  }
+
+  /* ---- Level 2: Tens ---- */
+  function renderTens(stage, q){
+    stage.appendChild(el('div','prompt', `<span class="badge">🎯</span> แตะแท่งบล็อกสิบให้ได้ <b>&nbsp;${q.target}&nbsp;</b>`));
+
+    const trayWrap = el('div','tray-wrap');
+    trayWrap.appendChild(el('div','tray-label','📏 คลังบล็อกสิบ'));
+    const tray = el('div','tray');
+    for(let i=0;i<9;i++){
+      const b = makeBlockEl('tens');
+      makeSelectable(b, {sourceTray:tray});
+      tray.appendChild(b);
+    }
+    trayWrap.appendChild(tray);
+    stage.appendChild(trayWrap);
+
+    stage.appendChild(pvTable([{type:'tens', label:'สิบ', cls:'tens'}]));
+
+    const answerRow = el('div','answer-row');
+    answerRow.innerHTML = `
+      <div class="field"><label>จำนวน</label><input id="ans1" type="number" inputmode="numeric" placeholder="?"></div>
+      <span class="op">สิบ</span>
+      <div class="field"><label>มีค่า</label><input id="ans2" type="number" inputmode="numeric" placeholder="?"></div>`;
+    stage.appendChild(answerRow);
+
+    stage.appendChild(actionsBar(()=>{
+      const zone = document.querySelector('.dropzone[data-zone="tens"]');
+      const count = zone.querySelectorAll('.blk').length;
+      const a1 = Number(document.getElementById('ans1').value);
+      const a2 = Number(document.getElementById('ans2').value);
+      const ok = count===q.tensCount && a1===q.tensCount && a2===q.target;
+      handleCheck(ok, ok? 'เยี่ยมมาก! นับสิบได้ถูกต้อง' : `ลองใหม่นะ แตะบล็อกสิบให้ได้ ${q.tensCount} แท่ง (=${q.target})`);
+    }));
+  }
+
+  /* ---- Level 3: Expand ---- */
+  function renderExpand(stage, q){
+    stage.appendChild(el('div','prompt', `<span class="badge">🎯</span> จัดบล็อกและกระจายจำนวน <b>&nbsp;${q.target}&nbsp;</b>`));
+
+    const trayWrap = el('div','tray-wrap');
+    trayWrap.appendChild(el('div','tray-label','🧱 คลังบล็อก (สิบ + หน่วย)'));
+    const tray = el('div','tray');
+    for(let i=0;i<9;i++){
+      const b = makeBlockEl('tens'); makeSelectable(b,{sourceTray:tray}); tray.appendChild(b);
+    }
+    for(let i=0;i<9;i++){
+      const b = makeBlockEl('units'); makeSelectable(b,{sourceTray:tray}); tray.appendChild(b);
+    }
+    trayWrap.appendChild(tray);
+    stage.appendChild(trayWrap);
+
+    stage.appendChild(pvTable([
+      {type:'tens', label:'สิบ', cls:'tens'},
+      {type:'units', label:'หน่วย', cls:'units'}
+    ]));
+
+    const answerRow = el('div','answer-row');
+    answerRow.innerHTML = `
+      <div class="field"><label>สิบ</label><input id="ansTen" type="number" inputmode="numeric" placeholder="?"></div>
+      <span class="op">×10 +</span>
+      <div class="field"><label>หน่วย</label><input id="ansUnit" type="number" inputmode="numeric" placeholder="?"></div>
+      <span class="op">=</span>
+      <div class="field"><label>รวมเป็น</label><input id="ansTotal" type="number" inputmode="numeric" placeholder="?"></div>`;
+    stage.appendChild(answerRow);
+
+    stage.appendChild(actionsBar(()=>{
+      const tensZone = document.querySelector('.dropzone[data-zone="tens"]');
+      const unitsZone = document.querySelector('.dropzone[data-zone="units"]');
+      const tensCount = tensZone.querySelectorAll('.blk').length;
+      const unitsCount = unitsZone.querySelectorAll('.blk').length;
+      const t = Number(document.getElementById('ansTen').value);
+      const u = Number(document.getElementById('ansUnit').value);
+      const tot = Number(document.getElementById('ansTotal').value);
+      const ok = tensCount===q.tensDigit && unitsCount===q.unitsDigit && t===q.tensDigit && u===q.unitsDigit && tot===q.target;
+      handleCheck(ok, ok? `ถูกต้อง! ${q.target} = ${q.tensDigit} สิบ + ${q.unitsDigit} หน่วย` : 'ลองใหม่นะ เช็คจำนวนบล็อกสิบ/หน่วย และตัวเลขในช่องอีกครั้ง');
+    }));
+  }
+
+  /* ---- Level 4: Addition (no carrying) ---- */
+  function renderAdd(stage, q){
+    stage.appendChild(el('div','prompt', `<span class="badge">🎯</span> รวมบล็อกแล้วหาผลบวก`));
+    stage.appendChild(el('div','addend-line', `<span class="a">${q.a}</span> &nbsp;+&nbsp; <span class="b">${q.b}</span> &nbsp;=&nbsp; ?`));
+
+    const placeLabel = {hund:'ร้อย', tens:'สิบ', units:'หน่วย'};
+
+    // Pile A
+    const trayA_wrap = el('div','tray-wrap');
+    trayA_wrap.appendChild(el('div','tray-label',`🔵 กอง A = ${q.a}`));
+    const trayA = el('div','tray pileA');
+    q.places.forEach((p,idx)=>{
+      const cnt = q.aDigits[idx];
+      for(let i=0;i<cnt;i++){
+        const b = makeBlockEl(p);
+        makeSelectable(b,{sourceTray:trayA});
+        trayA.appendChild(b);
+      }
+    });
+    trayA_wrap.appendChild(trayA);
+    stage.appendChild(trayA_wrap);
+
+    // Pile B
+    const trayB_wrap = el('div','tray-wrap');
+    trayB_wrap.appendChild(el('div','tray-label',`🟠 กอง B = ${q.b}`));
+    const trayB = el('div','tray pileB');
+    q.places.forEach((p,idx)=>{
+      const cnt = q.bDigits[idx];
+      for(let i=0;i<cnt;i++){
+        const b = makeBlockEl(p, true);
+        makeSelectable(b,{sourceTray:trayB});
+        trayB.appendChild(b);
+      }
+    });
+    trayB_wrap.appendChild(trayB);
+    stage.appendChild(trayB_wrap);
+
+    stage.appendChild(el('div','tray-label','⬇️ แตะบล็อกจากทั้งสองกองเพื่อย้ายมารวมกันในตารางค่าประจำหลักด้านล่าง'));
+    const cols = q.places.map(p=>({type:p, label:placeLabel[p], cls:p}));
+    stage.appendChild(pvTable(cols));
+
+    const answerRow = el('div','answer-row');
+    let inputsHtml = '';
+    q.places.forEach(p=>{
+      inputsHtml += `<div class="field"><label>${placeLabel[p]}</label><input class="digitAns" data-place="${p}" type="number" inputmode="numeric" maxlength="1" placeholder="?"></div>`;
+    });
+    inputsHtml += `<span class="op">ตอบ</span><div class="field"><label>ผลบวก</label><input id="ansSum" type="number" inputmode="numeric" placeholder="?"></div>`;
+    answerRow.innerHTML = inputsHtml;
+    stage.appendChild(answerRow);
+
+    stage.appendChild(actionsBar(()=>{
+      let blocksOk = true;
+      q.places.forEach((p,idx)=>{
+        const zone = document.querySelector('.dropzone[data-zone="'+p+'"]');
+        const count = zone.querySelectorAll('.blk').length;
+        const expected = q.aDigits[idx]+q.bDigits[idx];
+        if(count!==expected) blocksOk=false;
+      });
+      let digitsOk = true;
+      document.querySelectorAll('.digitAns').forEach(inp=>{
+        const p = inp.dataset.place;
+        const idx = q.places.indexOf(p);
+        const expected = q.aDigits[idx]+q.bDigits[idx];
+        if(Number(inp.value)!==expected) digitsOk=false;
+      });
+      const sumOk = Number(document.getElementById('ansSum').value)===q.sum;
+      const ok = blocksOk && digitsOk && sumOk;
+      handleCheck(ok, ok? `ถูกต้อง! ${q.a} + ${q.b} = ${q.sum}` : 'ลองใหม่นะ เช็คจำนวนบล็อกในแต่ละหลัก และตัวเลขผลบวกอีกครั้ง');
+    }));
+  }
+
+  /* ============ ACTIONS BAR ============ */
+  function actionsBar(onCheck){
+    const bar = el('div','actions');
+    const checkBtn = el('button','btn btn-primary','ตรวจคำตอบ');
+    checkBtn.addEventListener('click', onCheck);
+    const resetBtn = el('button','btn btn-secondary','เริ่มข้อนี้ใหม่');
+    resetBtn.addEventListener('click', renderStage);
+    bar.appendChild(checkBtn);
+    bar.appendChild(resetBtn);
+    return bar;
+  }
+
+  /* ============ CHECK RESULT ============ */
+  function handleCheck(ok, msg){
+    showFeedback(ok, msg);
+    if(ok){
+      state.correctInLevel++;
+      state.totalScore += 10;
+      state.qIndex++;
+      if(state.correctInLevel>=Q_PER_LEVEL){
+        if(state.levelIndex < LEVELS.length-1){
+          state.unlockedLevel = Math.max(state.unlockedLevel, state.levelIndex+1);
+          setTimeout(()=>{
+            state.levelIndex++; state.qIndex=0; state.correctInLevel=0;
+            nextQuestion();
+          }, 900);
+        } else {
+          state.unlockedLevel = LEVELS.length;
+          setTimeout(renderSummary, 900);
+        }
+      } else {
+        setTimeout(nextQuestion, 700);
+      }
+    } else {
+      const card = document.querySelector('.card');
+      card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+    }
+  }
+
+  /* ============ SUMMARY ============ */
+  function renderSummary(){
+    const stage = document.getElementById('stage');
+    stage.innerHTML='';
+    const wrap = el('div','summary');
+    wrap.appendChild(el('div','medal','🏆'));
+    wrap.appendChild(el('h2',null,'จบบทที่ 1 แล้ว เก่งมาก!'));
+    wrap.appendChild(el('p',null,`คะแนนรวมทั้งหมด ${state.totalScore} คะแนน จากทั้ง 4 ด่าน`));
+    const restart = el('button','btn btn-primary','เล่นอีกครั้ง');
+    restart.addEventListener('click', ()=>{
+      state.levelIndex=0; state.qIndex=0; state.correctInLevel=0;
+      state.unlockedLevel=0; state.totalScore=0;
+      state.lastValue={units:null,tens:null,expand:null,add:null};
+      renderNav(); nextQuestion();
+    });
+    wrap.appendChild(restart);
+    wrap.appendChild(el('div','quote','“การเรียนรู้ที่ได้ผลต้องไม่รีบร้อนที่จะเขียนให้เสร็จ ต้องทำด้วยความเข้าใจเท่านั้น”<br>— แบบพัฒนาความคิดรวบยอดทางคณิตศาสตร์ 1, โรงเรียนพัฒนาทักษะ เคเอสเอส'));
+
+    if(state.mode==='learner'){
+      const doneRaw = getCookie('kss_survey_done');
+      if(doneRaw){
+        wrap.appendChild(el('div','survey-done-note','✅ คุณได้ตอบแบบสอบถามความพึงพอใจแล้ว ขอบคุณค่ะ/ครับ'));
+      } else {
+        renderSurveyCard(wrap);
+      }
+    }
+
+    stage.appendChild(wrap);
+    renderNav();
+  }
+
+  /* ============ LEARNER SATISFACTION SURVEY ============ */
+  const SURVEY_QUESTIONS = [
+    'การลากและวางบล็อก: แตะและวางบล็อกสิบกับบล็อกหน่วยลงในตารางได้ง่ายไหม?',
+    'หน้าตาของแอปพลิเคชัน: หน้าจอดูง่าย ตัวหนังสือและสีสันมองเห็นชัดเจนไหม?',
+    'ตัวช่วยเมื่อทำผิด: เวลากรอบข้อความสั่นเตือน (เมื่อเรียงบล็อกผิด) ช่วยให้หนูอยากลองจัดใหม่ให้ถูกไหม?',
+    'ความเข้าใจ: E-Book เล่มนี้ช่วยให้หนูเข้าใจเรื่อง "การบวกเลข" ได้ดีขึ้นไหม?',
+    'ความสนุก: หนูชอบและสนุกกับการเรียนคณิตศาสตร์ด้วยวิธีนี้ไหม?'
+  ];
+  const SURVEY_OPTIONS = [
+    {emoji:'😄', label:'ชอบมาก'},
+    {emoji:'😐', label:'เฉยๆ'},
+    {emoji:'😞', label:'ไม่ค่อยชอบ'}
+  ];
+
+  function renderSurveyCard(container){
+    const survey = el('div','survey-card');
+    survey.appendChild(el('div','survey-title','📋 แบบสอบถามความพึงพอใจของผู้เรียน'));
+    const answers = {};
+
+    SURVEY_QUESTIONS.forEach((qText, qi)=>{
+      const qRow = el('div','survey-q');
+      qRow.appendChild(el('div','survey-q-text', `${qi+1}. ${qText}`));
+      const optRow = el('div','survey-opts');
+      SURVEY_OPTIONS.forEach((opt, oi)=>{
+        const btn = el('button','survey-opt', `<span class="emoji">${opt.emoji}</span><span>${opt.label}</span>`);
+        btn.type = 'button';
+        btn.addEventListener('click', ()=>{
+          answers[qi]=oi;
+          optRow.querySelectorAll('.survey-opt').forEach(b=>b.classList.remove('picked'));
+          btn.classList.add('picked');
+        });
+        optRow.appendChild(btn);
+      });
+      qRow.appendChild(optRow);
+      survey.appendChild(qRow);
+    });
+
+    const submitBtn = el('button','btn btn-primary survey-submit','ส่งแบบสอบถาม');
+    const thankYou = el('div','survey-thanks hidden','ขอบคุณสำหรับความคิดเห็นนะครับ/ค่ะ 🙏');
+    submitBtn.addEventListener('click', ()=>{
+      if(Object.keys(answers).length < SURVEY_QUESTIONS.length){
+        showFeedback(false, 'ตอบให้ครบทุกข้อก่อนส่งนะครับ');
+        return;
+      }
+      setCookie('kss_survey_done', JSON.stringify({name:state.userName, answers, date:new Date().toISOString()}), 365);
+      submitBtn.style.display='none';
+      thankYou.classList.remove('hidden');
+    });
+    survey.appendChild(submitBtn);
+    survey.appendChild(thankYou);
+    container.appendChild(survey);
+  }
+
+  /* ============ INIT ============ */
+  setupLoginGate();
+  const savedRole = getCookie('kss_role');
+  const savedName = getCookie('kss_name');
+  if(savedRole && savedName){
+    state.mode = savedRole;
+    state.userName = savedName;
+    document.getElementById('loginGate').style.display='none';
+    document.getElementById('appRoot').style.display='';
+    boot();
+  }
+})();
+</script>
+</body>
+</html>
