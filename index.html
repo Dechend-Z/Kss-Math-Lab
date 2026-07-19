@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KSS Math Lab</title>
+<title> KSS Math Lab</title>
+<link rel="icon" type="image/jpg" href="assets/KSS_logo.jpg">
+<link rel="apple-touch-icon" href="assets/KSS_logo.jpg">
 <meta name="description" content="KSS Math Lab คอร์สคณิตศาสตร์ออนไลน์สำหรับเด็กเริ่มเรียน สอนค่าประจำหลักและการบวกด้วยบล็อก 3 มิติที่จับต้องได้จริงบนหน้าจอ พร้อมระบบ Self-Correction">
 <link rel="canonical" href="https://kssmathlab.online/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,7 +42,8 @@
   }
   .nav{ display:flex; align-items:center; justify-content:space-between; padding:14px 24px; max-width:1040px; margin:0 auto; }
   .brand{ display:flex; align-items:center; gap:9px; font-family:'Mitr',sans-serif; font-weight:700; color:var(--maroon); font-size:17px; }
-  .brand .logo{ width:34px; height:34px; border-radius:9px; background:linear-gradient(145deg,var(--maroon),#c0392b); display:flex; align-items:center; justify-content:center; font-size:16px; }
+  .brand .logo{ width:34px; height:34px; border-radius:9px; overflow:hidden; background:#fff; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .brand .logo img{ width:100%; height:100%; object-fit:contain; }
   .nav-links{ display:flex; gap:22px; font-family:'Mitr',sans-serif; font-size:13.5px; color:var(--ink-soft); }
   .nav-links a{ text-decoration:none; }
   .nav-links a:hover{ color:var(--blue); }
@@ -135,7 +138,7 @@
 
 <header>
   <div class="nav">
-    <div class="brand"><span class="logo">🧮</span> KSS Math Lab </div>
+    <div class="brand"><span class="logo"><img src="assets/KSS_logo.jpg" alt="โลโก้ KSS Math Lab"></span> KSS Math Lab</div>
     <nav class="nav-links">
       <a href="#why">ทำไมต้อง KSS Math Lab</a>
       <a href="#chapters">หลักสูตร</a>
@@ -235,7 +238,7 @@
 <footer>
   <div class="wrap">
     <div class="brand" style="display:flex;">
-      <span class="logo" style="width:28px;height:28px;font-size:13px;">🧮</span> KSS Math Lab
+      <span class="logo" style="width:28px;height:28px;"><img src="assets/kss-logo.png" alt="โลโก้ KSS Math Lab"></span> KSS Math Lab
     </div>
     <p>by โรงเรียนพัฒนาทักษะ เคเอสเอส</p>
     <p>สอบถามเพิ่มเติม <a class="mail" href="mailto:your-shop@gmail.com">your-shop@gmail.com</a></p>
