@@ -97,18 +97,40 @@
   @media (max-width:760px){ .chapters-grid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:480px){ .chapters-grid{ grid-template-columns:1fr; } }
   .ch-card{
-    background:var(--card); border:1.5px solid var(--line); border-radius:14px; padding:16px;
-    display:flex; align-items:center; gap:12px;
+    background:var(--card); border:1.5px solid var(--line); border-radius:14px; padding:20px 16px 16px;
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px;
+    transition: transform .2s ease, box-shadow .2s ease;
   }
+  .ch-card:hover{ transform:translateY(-3px); box-shadow:0 10px 24px -10px rgba(26,58,107,.25); }
   .ch-card.available{ border-color:var(--green); background:#f3fbf6; }
   .ch-num{
-    width:34px; height:34px; border-radius:9px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
-    font-family:'Mitr',sans-serif; font-weight:700; font-size:14px; color:#fff; background:#b9c8de;
+    width:38px; height:38px; border-radius:10px; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    font-family:'Mitr',sans-serif; font-weight:700; font-size:15px; color:#fff; background:#b9c8de;
   }
   .ch-card.available .ch-num{ background:linear-gradient(120deg,var(--green),var(--green-deep)); }
-  .ch-title{ font-family:'Mitr',sans-serif; font-weight:600; font-size:13.5px; }
-  .ch-tag{ font-size:11px; color:var(--ink-soft); margin-top:2px; }
+  .ch-title{ font-family:'Mitr',sans-serif; font-weight:600; font-size:13.5px; line-height:1.35; }
+  .ch-tag{ font-size:10.5px; color:var(--ink-soft); }
   .ch-card.available .ch-tag{ color:var(--green-deep); font-weight:600; }
+  .ch-price{
+    font-family:'Mitr',sans-serif; font-weight:700; font-size:18px; color:var(--maroon);
+    margin-top:4px;
+  }
+  .ch-price span{ font-size:12px; color:var(--ink-soft); font-weight:500; }
+  .ch-action{
+    font-family:'Mitr',sans-serif; font-weight:600; font-size:12.5px; text-decoration:none;
+    padding:9px 20px; border-radius:999px; display:inline-flex; align-items:center; gap:5px;
+    margin-top:2px; transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .ch-action:active{ transform:scale(.96); }
+  .ch-buy{
+    background:linear-gradient(120deg,var(--blue),var(--blue-deep)); color:#fff;
+    box-shadow:0 4px 14px -4px rgba(41,128,185,.45);
+  }
+  .ch-buy:hover{ box-shadow:0 6px 20px -4px rgba(41,128,185,.6); }
+  .ch-enter{
+    background:var(--bg); color:var(--green-deep); border:1.5px solid var(--green);
+  }
+  .ch-enter:hover{ background:#eafaf0; }
 
   /* ---------- Pricing ---------- */
   .pricing{ background:var(--card); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
@@ -194,18 +216,72 @@
     <div class="section-head">
       <span class="eyebrow">หลักสูตร</span>
       <h2>9 บท จากพื้นฐานถึงบวกเลขคล่อง</h2>
-      <p>เรียนบทที่ 1 ได้ทันทีที่สมัคร บทต่อไปปลดล็อกทีละบทตามที่ซื้อ</p>
+      <p>บทที่ 1 เรียนได้ทันทีฟรี! บทอื่นๆ ซื้อแยกตามต้องการ บทละ ฿100</p>
     </div>
     <div class="chapters-grid">
-      <div class="ch-card available"><div class="ch-num">✓</div><div><div class="ch-title">บทที่ 1 — จำนวนและการบวก</div><div class="ch-tag">เรียนได้เลยตอนนี้</div></div></div>
-      <div class="ch-card"><div class="ch-num">2</div><div><div class="ch-title">บทที่ 2</div><div class="ch-tag">เร็วๆ นี้</div></div></div>
-      <div class="ch-card"><div class="ch-num">3</div><div><div class="ch-title">บทที่ 3</div><div class="ch-tag">เร็วๆ นี้</div></div></div>
-      <div class="ch-card"><div class="ch-num">4</div><div><div class="ch-title">บทที่ 4</div><div class="ch-tag">เร็วๆ นี้</div></div></div>
-      <div class="ch-card"><div class="ch-num">5</div><div><div class="ch-title">บทที่ 5</div><div class="ch-tag">เร็วๆ นี้</div></div></div>
-      <div class="ch-card"><div class="ch-num">6</div><div><div class="ch-title">บทที่ 6</div><div class="ch-tag">เร็วๆ นี้</div></div></div>
-      <div class="ch-card"><div class="ch-num">7</div><div><div class="ch-title">บทที่ 7</div><div class="ch-tag">เร็วๆ นี้</div></div></div>
-      <div class="ch-card"><div class="ch-num">8</div><div><div class="ch-title">บทที่ 8</div><div class="ch-tag">เร็วๆ นี้</div></div></div>
-      <div class="ch-card"><div class="ch-num">9</div><div><div class="ch-title">บทที่ 9</div><div class="ch-tag">เร็วๆ นี้</div></div></div>
+      <!-- บทที่ 1 — ปลดล็อกแล้ว -->
+      <div class="ch-card available">
+        <div class="ch-num">✓</div>
+        <div class="ch-title">บทที่ 1<br>จำนวนค่าประจำหลักและการบวกแบบไม่มีตัวทด</div>
+        <div class="ch-tag">ปลดล็อกแล้ว · พร้อมเรียน</div>
+        <a class="ch-action ch-enter" href="chapters/chapter1.html">เข้าเรียน →</a>
+      </div>
+      <!-- บทที่ 2 -->
+      <div class="ch-card">
+        <div class="ch-num">2</div>
+        <div class="ch-title">บทที่ 2<br>การบวกทดเลข</div>
+        <div class="ch-price">฿100 <span>/ บท</span></div>
+        <a class="ch-action ch-buy" href="https://buy.stripe.com/8x2aEX0DHdFS9cI7cVcAo05" target="_blank" rel="noopener">ซื้อบทนี้ →</a>
+      </div>
+      <!-- บทที่ 3 -->
+      <div class="ch-card">
+        <div class="ch-num">3</div>
+        <div class="ch-title">บทที่ 3</div>
+        <div class="ch-price">฿100 <span>/ บท</span></div>
+        <a class="ch-action ch-buy" href="https://buy.stripe.com/ใส่ลิงก์บทที่3" target="_blank" rel="noopener">ซื้อบทนี้ →</a>
+      </div>
+      <!-- บทที่ 4 -->
+      <div class="ch-card">
+        <div class="ch-num">4</div>
+        <div class="ch-title">บทที่ 4</div>
+        <div class="ch-price">฿100 <span>/ บท</span></div>
+        <a class="ch-action ch-buy" href="https://buy.stripe.com/ใส่ลิงก์บทที่4" target="_blank" rel="noopener">ซื้อบทนี้ →</a>
+      </div>
+      <!-- บทที่ 5 -->
+      <div class="ch-card">
+        <div class="ch-num">5</div>
+        <div class="ch-title">บทที่ 5</div>
+        <div class="ch-price">฿100 <span>/ บท</span></div>
+        <a class="ch-action ch-buy" href="https://buy.stripe.com/ใส่ลิงก์บทที่5" target="_blank" rel="noopener">ซื้อบทนี้ →</a>
+      </div>
+      <!-- บทที่ 6 -->
+      <div class="ch-card">
+        <div class="ch-num">6</div>
+        <div class="ch-title">บทที่ 6</div>
+        <div class="ch-price">฿100 <span>/ บท</span></div>
+        <a class="ch-action ch-buy" href="https://buy.stripe.com/ใส่ลิงก์บทที่6" target="_blank" rel="noopener">ซื้อบทนี้ →</a>
+      </div>
+      <!-- บทที่ 7 -->
+      <div class="ch-card">
+        <div class="ch-num">7</div>
+        <div class="ch-title">บทที่ 7</div>
+        <div class="ch-price">฿100 <span>/ บท</span></div>
+        <a class="ch-action ch-buy" href="https://buy.stripe.com/ใส่ลิงก์บทที่7" target="_blank" rel="noopener">ซื้อบทนี้ →</a>
+      </div>
+      <!-- บทที่ 8 -->
+      <div class="ch-card">
+        <div class="ch-num">8</div>
+        <div class="ch-title">บทที่ 8</div>
+        <div class="ch-price">฿100 <span>/ บท</span></div>
+        <a class="ch-action ch-buy" href="https://buy.stripe.com/ใส่ลิงก์บทที่8" target="_blank" rel="noopener">ซื้อบทนี้ →</a>
+      </div>
+      <!-- บทที่ 9 -->
+      <div class="ch-card">
+        <div class="ch-num">9</div>
+        <div class="ch-title">บทที่ 9</div>
+        <div class="ch-price">฿100 <span>/ บท</span></div>
+        <a class="ch-action ch-buy" href="https://buy.stripe.com/ใส่ลิงก์บทที่9" target="_blank" rel="noopener">ซื้อบทนี้ →</a>
+      </div>
     </div>
   </div>
 </section>
@@ -220,9 +296,9 @@
     <div class="price-grid">
       <div class="price-card">
         <h3>ซื้อทีละบท</h3>
-        <div class="price-num">฿99<span> / บท</span></div>
+        <div class="price-num">฿100<span> / บท</span></div>
         <div class="price-desc">เหมาะกับการทดลองเรียนก่อน หรือเลือกเฉพาะบทที่ต้องการ</div>
-        <a class="btn btn-ghost" href="mailto:your-shop@gmail.com?subject=สนใจซื้อ KSS Math Lab ทีละบท">เลือกบทที่สนใจ</a>
+        <a class="btn btn-ghost" href="#chapters">เลือกบทที่สนใจ ↓</a>
       </div>
       <div class="price-card featured">
         <span class="badge">คุ้มที่สุด</span>
