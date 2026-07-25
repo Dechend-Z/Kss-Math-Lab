@@ -406,30 +406,11 @@
 </head>
 <body>
 
-<div class="login-gate" id="loginGate">
-  <div class="login-card">
-    <div class="login-logo">🧮</div>
-    <h2 class="login-title">เข้าสู่ระบบ KSS Math Lab</h2>
-    <p class="login-sub">แบบพัฒนาความคิดรวบยอดทางคณิตศาสตร์ 1</p>
-
-    <div class="role-tabs" id="roleTabs">
-      <button class="role-tab active" data-role="learner">👦 ผู้เรียน</button>
-      <button class="role-tab" data-role="reviewer">🧑‍🏫 ผู้ตรวจ</button>
-    </div>
-
-    <div id="loginFields"></div>
-    <div class="login-error" id="loginError"></div>
-    <button class="btn btn-primary login-submit" id="loginSubmit">เริ่มใช้งาน</button>
-  </div>
-</div>
-
-<div class="app" id="appRoot" style="display:none;">
+<div class="app" id="appRoot">
   <header>
     <div class="brand"><span class="logo">🧮</span> KSS Math Lab</div>
     <div class="chapter">แบบพัฒนาความคิดรวบยอดทางคณิตศาสตร์ 1</div>
   </header>
-
-  <div class="user-bar" id="userBar"></div>
 
   <nav class="levels" id="levelNav"></nav>
 
@@ -458,8 +439,6 @@
   const Q_PER_LEVEL = 5;
 
   const state = {
-    mode: 'learner', // 'learner' | 'reviewer'
-    userName: '',
     levelIndex: 0,
     qIndex: 0,
     correctInLevel: 0,
@@ -469,20 +448,6 @@
     question: null,
     dropped: { hund:[], tens:[], units:[] } // arrays of {digit, owner}
   };
-
-  /* ============ COOKIES ============ */
-  function setCookie(name, value, days){
-    const d = new Date();
-    d.setTime(d.getTime() + days*24*60*60*1000);
-    document.cookie = name+'='+encodeURIComponent(value)+';expires='+d.toUTCString()+';path=/;SameSite=Lax';
-  }
-  function getCookie(name){
-    const m = document.cookie.match(new RegExp('(?:^|; )'+name.replace(/[.$?*|{}()[\]\\/+^]/g,'\\$&')+'=([^;]*)'));
-    return m ? decodeURIComponent(m[1]) : null;
-  }
-  function deleteCookie(name){
-    document.cookie = name+'=; Max-Age=-1; path=/; SameSite=Lax';
-  }
 
   /* ============ HELPERS ============ */
   function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
@@ -546,7 +511,7 @@
     nav.innerHTML='';
     LEVELS.forEach((lv, i)=>{
       const btn = el('button','lvl-btn');
-      const locked = state.mode==='reviewer' ? false : (i>state.unlockedLevel);
+      const locked = i>state.unlockedLevel;
       const active = i===state.levelIndex;
       btn.classList.toggle('active', active);
       btn.classList.toggle('locked', locked);
@@ -564,93 +529,7 @@
     });
   }
 
-  /* ============ LOGIN / ROLE SYSTEM ============ */
-  const ROLE_LABEL = {learner:'👦 ผู้เรียน', reviewer:'🧑\u200d🏫 ผู้ตรวจ'};
-  let loginRole = 'learner';
-
-  function renderLoginFields(){
-    const box = document.getElementById('loginFields');
-    box.innerHTML='';
-    if(loginRole==='learner'){
-      box.innerHTML = `
-        <div class="login-field">
-          <label>ชื่อผู้เรียน</label>
-          <input type="text" id="inpLearnerName" placeholder="กรอกชื่อของหนู">
-        </div>`;
-    } else {
-      box.innerHTML = `
-        <div class="login-field">
-          <label>ชื่อผู้ตรวจ</label>
-          <input type="text" id="inpReviewerName" placeholder="กรอกชื่อของท่าน">
-        </div>
-        <div class="login-field">
-          <label>Username</label>
-          <input type="text" id="inpUser" placeholder="Username" autocomplete="off">
-        </div>
-        <div class="login-field">
-          <label>Password</label>
-          <input type="password" id="inpPass" placeholder="Password" autocomplete="off">
-        </div>`;
-    }
-  }
-
-  function setupLoginGate(){
-    document.querySelectorAll('.role-tab').forEach(tab=>{
-      tab.addEventListener('click', ()=>{
-        document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));
-        tab.classList.add('active');
-        loginRole = tab.dataset.role;
-        document.getElementById('loginError').textContent='';
-        renderLoginFields();
-      });
-    });
-    renderLoginFields();
-
-    document.getElementById('loginSubmit').addEventListener('click', ()=>{
-      const errBox = document.getElementById('loginError');
-      errBox.textContent='';
-      if(loginRole==='learner'){
-        const name = document.getElementById('inpLearnerName').value.trim();
-        if(!name){ errBox.textContent='กรุณากรอกชื่อผู้เรียน'; return; }
-        completeLogin('learner', name);
-      } else {
-        const name = document.getElementById('inpReviewerName').value.trim();
-        const user = document.getElementById('inpUser').value.trim();
-        const pass = document.getElementById('inpPass').value;
-        if(!name){ errBox.textContent='กรุณากรอกชื่อผู้ตรวจ'; return; }
-        if(user!=='admin' || pass!=='admin'){ errBox.textContent='Username หรือ Password ไม่ถูกต้อง'; return; }
-        completeLogin('reviewer', name);
-      }
-    });
-  }
-
-  function completeLogin(role, name){
-    setCookie('kss_role', role, 30);
-    setCookie('kss_name', name, 30);
-    state.mode = role;
-    state.userName = name;
-    document.getElementById('loginGate').style.display='none';
-    document.getElementById('appRoot').style.display='';
-    boot();
-  }
-
-  function doLogout(){
-    deleteCookie('kss_role');
-    deleteCookie('kss_name');
-    location.reload();
-  }
-
-  function renderUserBar(){
-    const bar = document.getElementById('userBar');
-    bar.innerHTML='';
-    bar.appendChild(el('div','user-info', `${ROLE_LABEL[state.mode]} · ${state.userName}`));
-    const logoutBtn = el('button','logout-btn','ออกจากระบบ');
-    logoutBtn.addEventListener('click', doLogout);
-    bar.appendChild(logoutBtn);
-  }
-
   function boot(){
-    renderUserBar();
     renderNav();
     nextQuestion();
   }
@@ -1074,14 +953,7 @@
     wrap.appendChild(restart);
     wrap.appendChild(el('div','quote','“การเรียนรู้ที่ได้ผลต้องไม่รีบร้อนที่จะเขียนให้เสร็จ ต้องทำด้วยความเข้าใจเท่านั้น”<br>— แบบพัฒนาความคิดรวบยอดทางคณิตศาสตร์ 1, โรงเรียนพัฒนาทักษะ เคเอสเอส'));
 
-    if(state.mode==='learner'){
-      const doneRaw = getCookie('kss_survey_done');
-      if(doneRaw){
-        wrap.appendChild(el('div','survey-done-note','✅ คุณได้ตอบแบบสอบถามความพึงพอใจแล้ว ขอบคุณค่ะ/ครับ'));
-      } else {
-        renderSurveyCard(wrap);
-      }
-    }
+    renderSurveyCard(wrap);
 
     stage.appendChild(wrap);
     renderNav();
@@ -1131,7 +1003,6 @@
         showFeedback(false, 'ตอบให้ครบทุกข้อก่อนส่งนะครับ');
         return;
       }
-      setCookie('kss_survey_done', JSON.stringify({name:state.userName, answers, date:new Date().toISOString()}), 365);
       submitBtn.style.display='none';
       thankYou.classList.remove('hidden');
     });
@@ -1141,16 +1012,7 @@
   }
 
   /* ============ INIT ============ */
-  setupLoginGate();
-  const savedRole = getCookie('kss_role');
-  const savedName = getCookie('kss_name');
-  if(savedRole && savedName){
-    state.mode = savedRole;
-    state.userName = savedName;
-    document.getElementById('loginGate').style.display='none';
-    document.getElementById('appRoot').style.display='';
-    boot();
-  }
+  boot();
 })();
 </script>
 </body>
